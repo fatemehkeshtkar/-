@@ -1,65 +1,65 @@
-class TreeNode:
-    def __init__(self, value):
-        self.data = value
-        self.left = None
-        self.right = None
+class Node:
+    def __init__(self, x):
+        self.Data = x
+        self.Lchild = None
+        self.Rchild = None
 
 
-def count_leaves(node):
-    if node is None:
+def CountLeaves(root):
+    if root is None:
         return 0
-    if node.left is None and node.right is None:
+    if root.Lchild is None and root.Rchild is None:
         return 1
-    return count_leaves(node.left) + count_leaves(node.right)
+    return CountLeaves(root.Lchild) + CountLeaves(root.Rchild)
 
 
-def count_degree_one(node):
-    if node is None:
+def Count1Deg(root):
+    if root is None:
         return 0
-    count = 0
-    if (node.left is None) != (node.right is None):
-        count = 1
-    return count + count_degree_one(node.left) + count_degree_one(node.right)
+    c = 0
+    if (root.Lchild is None) != (root.Rchild is None):
+        c = 1
+    return c + Count1Deg(root.Lchild) + Count1Deg(root.Rchild)
 
 
-def count_degree_two(node):
-    if node is None:
+def Count2Deg(root):
+    if root is None:
         return 0
-    count = 0
-    if node.left is not None and node.right is not None:
-        count = 1
-    return count + count_degree_two(node.left) + count_degree_two(node.right)
+    c = 0
+    if root.Lchild is not None and root.Rchild is not None:
+        c = 1
+    return c + Count2Deg(root.Lchild) + Count2Deg(root.Rchild)
 
 
-def sum_tree(node):
-    if node is None:
+def SumTree(root):
+    if root is None:
         return 0
-    return node.data + sum_tree(node.left) + sum_tree(node.right)
+    return root.Data + SumTree(root.Lchild) + SumTree(root.Rchild)
 
 
-def count_nodes(node):
-    if node is None:
+def CountNodes(root):
+    if root is None:
         return 0
-    return 1 + count_nodes(node.left) + count_nodes(node.right)
+    return 1 + CountNodes(root.Lchild) + CountNodes(root.Rchild)
 
 
-def preorder(node):
-    if node is None:
+def PreOrder(root):
+    if root is None:
         return
-    print(node.data)
-    preorder(node.left)
-    preorder(node.right)
+    print(root.Data)
+    PreOrder(root.Lchild)
+    PreOrder(root.Rchild)
 
 
-def search_tree(node, target):
-    if node is None:
+def Search(root, target):
+    if root is None:
         return False
-    if node.data == target:
+    if root.Data == target:
         return True
-    return search_tree(node.left, target) or search_tree(node.right, target)
+    return Search(root.Lchild, target) or Search(root.Rchild, target)
 
 
-def max_tree(node):
-    if node is None:
+def MaxTree(root):
+    if root is None:
         return float("-inf")
-    return max(node.data, max_tree(node.left), max_tree(node.right))
+    return max(root.Data, MaxTree(root.Lchild), MaxTree(root.Rchild))

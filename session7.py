@@ -1,108 +1,136 @@
-class dnode():
-    def __init__(self , x):
+class DNode:
+    def __init__(self, x):
         self.Data = x
         self.next = None
         self.back = None
 
 
-class dlinked_list :
+class DLinkedList:
     def __init__(self):
         self.head = None
 
-    def ins_frist(self , x):
+    def ins_first(self, x):
+        """قرار دادن عنصر در ابتدای لیست دوطرفه"""
+        new_node = DNode(x)
         if self.head is None:
-            self.head = dnode(x)
-        a = dnode(x)
-        a.next = self.head
-        self.head = a
-        a.next.back = a
-    def ins_last(self , x):
-        if self.head is None:
-            self.ins_frist(x)
+            self.head = new_node
             return
-        c = self.head
-        while c.next:
-            c = c.next
-        a = dnode(x)
-        c.next = a
-        a.back = c
-    def ins_after(self , x ,y):
+        new_node.next = self.head
+        self.head.back = new_node
+        self.head = new_node
+
+    def ins_last(self, x):
+        """قرار دادن عنصر در انتهای لیست دوطرفه"""
         if self.head is None:
-            print("error")
+            self.ins_first(x)
             return
-        c = self.head
-        while c :
-            if c.Data == x:
-                if c.next is None:
+        current = self.head
+        while current.next:
+            current = current.next
+        new_node = DNode(x)
+        current.next = new_node
+        new_node.back = current
+
+    def ins_after(self, x, y):
+        """قرار دادن y بعد از اولین گره شامل x"""
+        if self.head is None:
+            print("error: list is empty")
+            return
+        current = self.head
+        while current:
+            if current.Data == x:
+                if current.next is None:
                     self.ins_last(y)
                     return
-                a = dnode(y)
-                a.next = c.next
-                c.next = a
-                a.next.back = a
-                a.back = c
+                new_node = DNode(y)
+                new_node.next = current.next
+                current.next.back = new_node
+                current.next = new_node
+                new_node.back = current
                 return
-            c = c.next
-            print("not found")
-    def ins_befor(self , x , y):
+            current = current.next
+        print("not found")
+
+    def ins_before(self, x, y):
+        """قرار دادن y قبل از اولین گره شامل x"""
         if self.head is None:
-            print("error")
+            print("error: list is empty")
             return
-        c = self.head
-        while c:
-            if c.Data == x:
-                if c.back is None:
-                    self.ins_frist(y)
+        current = self.head
+        while current:
+            if current.Data == x:
+                if current.back is None:
+                    self.ins_first(y)
                     return
-                a = dnode(y)
-                a.next = c
-                c.back.next = a
-                a.back = c.back
-                c.back = a
+                new_node = DNode(y)
+                prev_node = current.back
+                prev_node.next = new_node
+                new_node.back = prev_node
+                new_node.next = current
+                current.back = new_node
                 return
-            c = c.next
-            print("not found")
+            current = current.next
+        print("not found")
+
     def del_first(self):
+        """حذف اولین گره"""
         if self.head is None:
-            print("error")
+            print("error: list is empty")
             return
-        c = self.head
-        self.head = c.next
-        del c
+        temp = self.head
+        self.head = self.head.next
         if self.head:
             self.head.back = None
+        del temp
+
     def del_last(self):
+        """حذف آخرین گره"""
         if self.head is None:
-            print("error")
+            print("error: list is empty")
             return
-        c = self.head
-        while c.next:
-            c = c.next
-        if c.back is None:
+        current = self.head
+        while current.next:
+            current = current.next
+        if current.back is None:
             self.del_first()
             return
-        c.back.next = None
-        del c
-    def del_befor(self , x):
-        if self.head is None:
-            print("error")
+        current.back.next = None
+        del current
+
+    def del_before(self, x):
+        """حذف گره قبل از اولین گره شامل x"""
+        if self.head is None or self.head.Data == x:
+            print("error: no node before head")
             return
-        if self.head.Data == x:
-            print("error")
-            return
-        c = self.head
-        while c :
-            if c.Data == x:
-                a = c.back
-                c.back = a.back
-                if a.back:
-                    a.back.next = c
-                del a
+        current = self.head
+        while current:
+            if current.Data == x:
+                node_to_delete = current.back
+                if node_to_delete.back:
+                    node_to_delete.back.next = current
+                current.back = node_to_delete.back
+                del node_to_delete
                 return
-            c = c.next
-            print("x not found")
-                                                   
+            current = current.next
+        print("x not found")
 
+    def display_forward(self):
+        """نمایش لیست از اول تا اخر"""
+        current = self.head
+        while current:
+            print(current.Data, end=" <-> ")
+            current = current.next
+        print("None")
 
-
-
+    def display_backward(self):
+        """نمایش لیست از انتها تا ابتدا"""
+        current = self.head
+        if not current:
+            print("None")
+            return
+        while current.next:
+            current = current.next
+        while current:
+            print(current.Data, end=" <-> ")
+            current = current.back
+        print("None")

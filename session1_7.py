@@ -1,8 +1,12 @@
 "تابع پیچیدگی تکه برنامه زیر را بنویسید"
-while n > 1 :
-    n = n // 2
+def complexity_example(n):
+    count = 0
+    while n > 1:
+        n = n // 2
+        count += 1
+    return count  
 
-F(n) = log n 2 
 
-2**7 = 128
-log 2**7 = logn = 7
+def F_n_complexity(n):
+    import math
+    return math.log2(n)  

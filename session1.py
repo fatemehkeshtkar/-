@@ -10,3 +10,4 @@ def compute(n):
         l += 2
 
     return a, l, t
+    

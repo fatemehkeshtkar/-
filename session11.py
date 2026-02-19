@@ -1,34 +1,50 @@
-def BFS(graph , start):
-    queue = [start]
-    visited = {start}
-    while queue:
-        vertex = queue.pop(0)
-        for ne in graph[vertex]:
-            visited.add(ne)
-            queue.append(ne)
+from collections import deque
 
 
-    return visited
+def BFS(g, s):
+    q = deque([s])
+    seen = {s}
 
-def DFS(graph , start , visited):
-    visited[start] = True
-    for ne in graph[start]:
-        if not visited[ne]:
-            DFS(graph , ne , visited)
+    while q:
+        v = q.popleft()
+        for nb in g[v]:
+            if nb not in seen:
+                seen.add(nb)
+                q.append(nb)
 
-def sort1(A):
-    B = [] *len(A)
-    for i in range(len(A)):
-        for j in range(1 , len(A)):
-            if A[j] < min:
-                min = A[j]
-                k = j
-        B[i] = min
-        A[k] = float("inf")
-    return B 
+    return seen
 
-def Bubble(A):
-    for i in range(len(A)-1):
-        for j in range(len(A)-1):
-            if A[j] > A[j+1]:
-                A[j], A[j+1] = A[j+1] , A[j]                       
+
+def DFS(g, s, seen=None):
+    if seen is None:
+        seen = set()
+
+    seen.add(s)
+    for nb in g[s]:
+        if nb not in seen:
+            DFS(g, nb, seen)
+
+    return seen
+
+
+def sort1(arr):
+    a = arr.copy()
+    res = []
+
+    while a:
+        m = min(a)
+        res.append(m)
+        a.remove(m)
+
+    return res
+
+
+def Bubble(arr):
+    a = arr.copy()
+
+    for i in range(len(a) - 1):
+        for j in range(len(a) - 1 - i):
+            if a[j] > a[j + 1]:
+                a[j], a[j + 1] = a[j + 1], a[j]
+
+    return a
